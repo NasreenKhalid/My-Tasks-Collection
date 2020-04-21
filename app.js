@@ -37,7 +37,8 @@ function generateID() {
 
 function fetchRecords(record) {
   var item = document.createElement("div");
-  item.innerHTML = `<div class="card card-body"><h4 class="title">Name: ${record.text}</h4> <br>Desc: ${record.desc} <button class="btn btn-danger float-right btn-sm mt-3 delete" onclick="removeTransaction(${record.id})">X</button></div>`;
+  item.classList.add("task");
+  item.innerHTML = `<div class="card card-body"><h4 class="title-head" id="title">${record.text}</h4> <br><p class="body">Desc: ${record.desc} </p><button class="btn btn-danger float-right btn-sm mt-3 delete" onclick="removeTransaction(${record.id})">X</button></div>`;
   results.appendChild(item);
 }
 
@@ -54,17 +55,17 @@ function removeTransaction(id) {
 
 function searchTasks(e) {
   var text = e.target.value.toLowerCase();
-
-  var tasksListAll = document.getElementsByClassName("title");
+  console.log(text);
+  var tasksListAll = document.querySelectorAll(".task");
   console.log(tasksListAll);
   Array.from(tasksListAll).forEach(function (item) {
-    var itemName = item.innerHTML;
-    console.log(itemName);
-    if (itemName.toLowerCase().indexOf(text) != -1) {
-      // item.style.display = "block";
-      document.getElementById("results").innerHTML = itemName;
+    const title = item.querySelector(".title-head").innerText.toLowerCase();
+    const body = item.querySelector(".body").innerText.toLowerCase();
+    console.log(title, body);
+    if (title.indexOf(text) != -1 || body.indexOf(text) != -1) {
+      item.style.display = "flex";
     } else {
-      document.getElementById("results").innerHTML = `No results to display!`;
+      item.style.display = "none";
     }
   });
 }
